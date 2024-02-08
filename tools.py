@@ -60,6 +60,8 @@ def plot_lines(ax, lines_dict, plot_midpoint=True, color=None, label=None):
 
 
 def midpoint_odds(odds, opposing_odds, tail_penalty=0):
+    """Calculates a midpoint theo price based on a bookmaker quote.
+    tail_penalty parameter can be adjusted to account for bookmaker leans for tail events."""
     upperbound_prob = 1 / odds
     lowerbound_prob = 1 / invert_odds(opposing_odds)
     theo_prob = (upperbound_prob + lowerbound_prob) / 2
@@ -67,10 +69,6 @@ def midpoint_odds(odds, opposing_odds, tail_penalty=0):
     lean = (theo_prob - 0.5) * tail_penalty * width / 2
     adj_theo_prob = theo_prob + lean
     return 1 / adj_theo_prob
-
-
-def normal_cdf(x, mu, sigma):
-    return 0.5 * (1 + special.erf((x - mu) / (sigma * np.sqrt(2))))
 
 
 def fit_normal_cdf(lines_dict):
@@ -99,13 +97,13 @@ def plot_normal_cdf(ax, model, xrange=None, plot_cov=False, cov_std_devs=2, num_
         xrange = ax.get_xlim()
         xrange = [-100, 100]
     x_data = np.linspace(xrange[0], xrange[1], num_points)
-    y_data = normal_cdf(x_data, mu, sigma)
+    y_data = stats.norm.cdf(x_data, mu, sigma)
     ax.plot(x_data, y_data, color=color, label=label)
     if plot_cov:
         popt = model['popt']
         pcov = model['pcov']
         perr = np.sqrt(np.diag(pcov))
-        ax.fill_between(x_data, normal_cdf(x_data, *(popt - cov_std_devs*perr)), normal_cdf(x_data, *(popt + cov_std_devs*perr)), color='gray', alpha=0.2)
+        ax.fill_between(x_data, stats.norm.cdf(x_data, *(popt - cov_std_devs*perr)), stats.norm.cdf(x_data, *(popt + cov_std_devs*perr)), color='gray', alpha=0.2)
 
 
 class Ruler:

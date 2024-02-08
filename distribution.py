@@ -7,9 +7,9 @@ import numpy as np
 
 SWEEPS = False
 
-TAB_EVENT_ID_STR = 'Charlotte%20v%20Toronto'
-POINTSBET_EVENT_ID_STR = '1764151'
-NEDS_EVENT_ID_STR = 'dc48195f-0064-41de-b872-2a10ae8078b2'
+TAB_EVENT_ID_STR = 'Indiana%20v%20Golden%20State'
+POINTSBET_EVENT_ID_STR = '1764984'
+NEDS_EVENT_ID_STR = 'adb6e940-d90c-435b-a61f-ada4df3daa4e'
 
 # TAB_EVENT_ID_STR = 'Washington%20v%20Cleveland'
 # POINTSBET_EVENT_ID_STR = '1764153'
